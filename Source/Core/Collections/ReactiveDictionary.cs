@@ -1,6 +1,5 @@
 using System.Collections;
 using Combine.Core.Events;
-using Combine.Core.Lifecycle;
 using Combine.Core.Primitives;
 
 namespace Combine.Core.Collections;
