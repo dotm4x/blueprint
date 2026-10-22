@@ -1,16 +1,18 @@
-<table>
-  <tr>
-    <td width="200" align="center" valign="middle">
-      <img src="Assets/Logo.svg" width="160" alt="Combine logo">
-      <br>
-      <sub>Preliminary logo</sub>
-    </td>
-    <td valign="middle">
-      <h1>Combine</h1>
-      <p><strong>The foundation for modern user interfaces.</strong></p>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="Assets/Logo.svg" width="120" alt="Combine">
+</p>
+
+<h1 align="center">Combine</h1>
+
+<p align="center">
+  <strong>The foundation for modern user interfaces.</strong>
+</p>
+
+<p align="center">
+  <em>Work In Progress</em>
+</p>
+
+---
 
 Combine is an experimental, cross-platform UI technology built around a shared model for describing interfaces, their structure, appearance, and layout.
 
