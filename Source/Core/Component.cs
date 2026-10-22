@@ -350,10 +350,7 @@ public class Component : Destroyable, IIdentifiable<string>
         }
     }
 
-    private void ConfigureComponents()
-    {
-        Configure();
-    }
+    private void ConfigureComponents() => Configure();
 
     private void OnParentChanged(Component? parent)
     {
