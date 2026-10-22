@@ -29,7 +29,7 @@ public interface IReadOnlyStore<TValue> : IReadOnlyEvent<TValue>
     /// <summary>
     /// Gets the current value of the store.
     /// </summary>
-    TValue Get();
+    TValue Value { get; }
 }
 
 /// <summary>
@@ -39,10 +39,10 @@ public interface IReadOnlyStore<TValue> : IReadOnlyEvent<TValue>
 public interface IStore<TValue> : IReadOnlyStore<TValue>, IEvent<TValue>
 {
     /// <summary>
-    /// Updates the value and notifies listeners only when it differs from the current value.
+    /// Gets or sets the current value of the store.
+    /// Setting the value notifies listeners only when it differs from the current value.
     /// </summary>
-    /// <param name="value">The new value to set.</param>
-    void Set(TValue value);
+    new TValue Value { get; set; }
 }
 
 /// <summary>
@@ -68,7 +68,7 @@ public interface IStore<TValue> : IReadOnlyStore<TValue>, IEvent<TValue>
 ///     Console.WriteLine($"Changed from {change.Previous} to {change.Current}.");
 /// });
 ///
-/// store.Set(5);
+/// store.Value = 5;
 /// </code>
 /// </example>
 /// <param name="value">The initial value of the store.</param>
@@ -83,9 +83,40 @@ public class Store<TValue>(TValue value, Func<TValue, TValue, bool>? equals = nu
     private TValue _value = value;
 
     /// <summary>
-    /// Gets the current value of the store.
+    /// Gets or sets the current value of the store.
+    /// Setting the value notifies listeners only when it differs from the current value.
     /// </summary>
-    public TValue Get() => _value;
+    /// <exception cref="DestroyedObjectException">
+    /// Thrown when attempting to set the value after the store has been destroyed.
+    /// </exception>
+    public TValue Value
+    {
+        get => _value;
+        set
+        {
+            ThrowIfDestroyed();
+
+            if (equals is not null)
+            {
+                if (equals(_value, value))
+                {
+                    return;
+                }
+            }
+            else if (EqualityComparer<TValue>.Default.Equals(_value, value))
+            {
+                return;
+            }
+
+            TValue previous = _value;
+
+            Previous = previous;
+            _value = value;
+
+            _onChange.Fire(new StoreChange<TValue>(previous, value));
+            Dispatch(value);
+        }
+    }
 
     /// <summary>
     /// Gets an event that provides the previous and current values when the store changes.
@@ -97,38 +128,6 @@ public class Store<TValue>(TValue value, Func<TValue, TValue, bool>? equals = nu
     /// Initially, it equals the current value.
     /// </summary>
     public TValue Previous { get; private set; } = value;
-
-    /// <summary>
-    /// Updates the value and notifies listeners only when it differs from the current value.
-    /// </summary>
-    /// <param name="value">The new value to set.</param>
-    /// <exception cref="DestroyedObjectException">
-    /// Thrown when the store has already been destroyed.
-    /// </exception>
-    public void Set(TValue value)
-    {
-        ThrowIfDestroyed();
-
-        if (equals is not null)
-        {
-            if (equals(_value, value))
-            {
-                return;
-            }
-        }
-        else if (EqualityComparer<TValue>.Default.Equals(_value, value))
-        {
-            return;
-        }
-
-        TValue previous = _value;
-
-        Previous = previous;
-        _value = value;
-
-        _onChange.Fire(new StoreChange<TValue>(previous, value));
-        Dispatch(value);
-    }
 
     /// <summary>
     /// Destroys the change event and releases the store's connections.
