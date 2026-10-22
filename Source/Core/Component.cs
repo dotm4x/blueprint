@@ -101,7 +101,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
 
                 case "..":
                 {
-                    current = current.Parent.Get();
+                    current = current.Parent.Value;
                     break;
                 }
 
@@ -266,7 +266,7 @@ public class Component : Destroyable, IIdentifiable<string>
     /// Each path segment is a component identifier.
     /// Root components use their own identifier.
     /// </remarks>
-    public string Path => Parent.Get() is { } parent ? $"{parent.Path}/{Identifier}" : Identifier;
+    public string Path => Parent.Value is { } parent ? $"{parent.Path}/{Identifier}" : Identifier;
 
     /// <summary>
     /// Initializes a new component.
@@ -296,7 +296,7 @@ public class Component : Destroyable, IIdentifiable<string>
 
         if (options.Parent is not null)
         {
-            Parent.Set(options.Parent);
+            options.Parent.Components.Add(this);
         }
 
         foreach (string tag in options.Tags ?? [])
@@ -340,7 +340,7 @@ public class Component : Destroyable, IIdentifiable<string>
             }
             catch
             {
-                if (component.Parent.Get() is null && !component.Destroyed)
+                if (component.Parent.Value is null && !component.Destroyed)
                 {
                     component.Destroy();
                 }
@@ -374,7 +374,7 @@ public class Component : Destroyable, IIdentifiable<string>
 
             try
             {
-                Parent.Set(previous);
+                Parent.Value = previous;
             }
             finally
             {
@@ -410,9 +410,9 @@ public class Component : Destroyable, IIdentifiable<string>
         {
             component.ThrowIfDestroyed();
 
-            if (component.Parent.Get() != this)
+            if (component.Parent.Value != this)
             {
-                component.Parent.Set(this);
+                component.Parent.Value = this;
             }
         }
         catch
@@ -428,9 +428,9 @@ public class Component : Destroyable, IIdentifiable<string>
 
     private void OnComponentRemoved(Component component)
     {
-        if (component.Parent.Get() == this)
+        if (component.Parent.Value == this)
         {
-            component.Parent.Set(null);
+            component.Parent.Value = null;
         }
     }
 
@@ -450,7 +450,7 @@ public class Component : Destroyable, IIdentifiable<string>
 
         HashSet<Component> visited = [];
 
-        for (Component? ancestor = parent; ancestor is not null; ancestor = ancestor.Parent.Get())
+        for (Component? ancestor = parent; ancestor is not null; ancestor = ancestor.Parent.Value)
         {
             if (ReferenceEquals(ancestor, this))
             {
@@ -486,7 +486,7 @@ public class Component : Destroyable, IIdentifiable<string>
             Unload();
         }
 
-        Parent.Set(null);
+        Parent.Value = null;
 
         foreach (Component component in Components.ToArray())
         {
