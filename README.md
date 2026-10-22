@@ -1,6 +1,6 @@
 # Combine
 
-**A unified approach to interface composition.**
+**The foundation for modern user interfaces.**
 
 Combine is an experimental, cross-platform UI technology built around a shared model for describing interfaces, their structure, appearance, and layout.
 
