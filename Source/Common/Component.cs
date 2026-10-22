@@ -26,7 +26,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
 
             if (recursive)
             {
-                Component? result = component.Children.GetByIdentifier(identifier, true);
+                Component? result = component.Components.GetByIdentifier(identifier, true);
 
                 if (result is not null)
                 {
@@ -77,7 +77,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
 
                 default:
                 {
-                    current = current.Children.GetByIdentifier(segment);
+                    current = current.Components.GetByIdentifier(segment);
                     break;
                 }
             }
@@ -114,7 +114,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
                 continue;
             }
 
-            foreach (Component descendant in component.Children.GetByTag(tag, true))
+            foreach (Component descendant in component.Components.GetByTag(tag, true))
             {
                 yield return descendant;
             }
@@ -139,7 +139,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
                 continue;
             }
 
-            foreach (TComponent descendant in component.Children.GetByTag<TComponent>(tag, true))
+            foreach (TComponent descendant in component.Components.GetByTag<TComponent>(tag, true))
             {
                 yield return descendant;
             }
@@ -161,7 +161,7 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
                 continue;
             }
 
-            foreach (TComponent descendant in component.Children.GetComponents<TComponent>(true))
+            foreach (TComponent descendant in component.Components.GetComponents<TComponent>(true))
             {
                 yield return descendant;
             }
@@ -202,9 +202,9 @@ public class Component : Destroyable, IIdentifiable<string>
     public bool Persistent { get; init; }
 
     /// <summary>
-    /// Gets the child components.
+    /// Gets the components owned by this component.
     /// </summary>
-    public ComponentCollection Children { get; init; }
+    public ComponentCollection Components { get; init; }
 
     /// <summary>
     /// Gets the component tags.
@@ -246,13 +246,13 @@ public class Component : Destroyable, IIdentifiable<string>
     public Component()
     {
         Parent = new Store<Component?>(null);
-        Children = new ComponentCollection(this);
+        Components = new ComponentCollection(this);
         Transform = new Store<Transform>(new Transform());
         Clip = new Store<bool>(false);
 
         Parent.Connect(OnParentChanged, true);
-        Children.OnAdd.Connect(OnComponentAdded, true);
-        Children.OnRemove.Connect(OnComponentRemoved, true);
+        Components.OnAdd.Connect(OnComponentAdded, true);
+        Components.OnRemove.Connect(OnComponentRemoved, true);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public class Component : Destroyable, IIdentifiable<string>
     /// <returns>The child components to register, in enumeration order.</returns>
     /// <remarks>
     /// Called at most once, before configuration and the first load.
-    /// Children added through object initializers are registered before
+    /// Components added through object initializers are registered before
     /// composed components.
     /// If composition fails, the failure is not retried.
     /// </remarks>
@@ -286,7 +286,7 @@ public class Component : Destroyable, IIdentifiable<string>
         {
             try
             {
-                Children.Add(component);
+                Components.Add(component);
             }
             catch
             {
@@ -331,14 +331,14 @@ public class Component : Destroyable, IIdentifiable<string>
             throw;
         }
 
-        if (previous is not null && previous.Children.Contains(this))
+        if (previous is not null && previous.Components.Contains(this))
         {
-            previous.Children.Remove(this);
+            previous.Components.Remove(this);
         }
 
-        if (parent is not null && !parent.Children.Contains(this))
+        if (parent is not null && !parent.Components.Contains(this))
         {
-            parent.Children.Add(this);
+            parent.Components.Add(this);
         }
 
         if (parent?.Loaded == true && !Loaded)
@@ -364,9 +364,9 @@ public class Component : Destroyable, IIdentifiable<string>
         }
         catch
         {
-            if (Children.Contains(component))
+            if (Components.Contains(component))
             {
-                Children.Remove(component);
+                Components.Remove(component);
             }
 
             throw;
@@ -435,12 +435,12 @@ public class Component : Destroyable, IIdentifiable<string>
 
         Parent.Value = null;
 
-        foreach (Component component in Children.ToArray())
+        foreach (Component component in Components.ToArray())
         {
             component.Destroy();
         }
 
-        Children.Destroy();
+        Components.Destroy();
         Tags.Destroy();
         Transform.Destroy();
         Clip.Destroy();
@@ -490,14 +490,14 @@ public class Component : Destroyable, IIdentifiable<string>
         Loaded = true;
 
         bool initialized = false;
-        HashSet<Component> previouslyLoaded = [.. Children.Where(component => component.Loaded)];
+        HashSet<Component> previouslyLoaded = [.. Components.Where(component => component.Loaded)];
 
         try
         {
             OnLoad();
             initialized = true;
 
-            foreach (Component component in Children)
+            foreach (Component component in Components)
             {
                 if (!component.Loaded)
                 {
@@ -509,7 +509,7 @@ public class Component : Destroyable, IIdentifiable<string>
         {
             List<Exception> failures = [];
 
-            foreach (Component component in Children.ToArray().Reverse())
+            foreach (Component component in Components.ToArray().Reverse())
             {
                 if (!component.Loaded || previouslyLoaded.Contains(component))
                 {
@@ -580,7 +580,9 @@ public class Component : Destroyable, IIdentifiable<string>
         HashSet<Component>? preserved = _loadRollbackPreserved;
         bool rollingBack = preserved is not null;
 
-        IEnumerable<Component> components = rollingBack ? Children.ToArray().Reverse() : Children;
+        IEnumerable<Component> components = rollingBack
+            ? Components.ToArray().Reverse()
+            : Components;
 
         foreach (Component component in components)
         {

@@ -92,12 +92,12 @@ public sealed record LayoutArrangement(Component Component, LayoutResult Result)
 /// Provides the components and geometry required by a layout.
 /// </summary>
 /// <param name="Transform">The transform of the parent component.</param>
-/// <param name="Children">The child components to arrange.</param>
+/// <param name="Components">The components to arrange.</param>
 /// <remarks>
 /// A layout context provides the information required by a layout
 /// implementation without exposing renderer internals.
 /// </remarks>
-public sealed record LayoutContext(Transform Transform, IReadOnlyList<Component> Children);
+public sealed record LayoutContext(Transform Transform, IReadOnlyList<Component> Components);
 
 /// <summary>
 /// Defines the rules for measuring and arranging a component's children.

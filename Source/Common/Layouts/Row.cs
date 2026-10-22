@@ -24,7 +24,7 @@ public class Row : Layout
         float width = 0;
         float height = 0;
 
-        foreach (Component child in context.Children)
+        foreach (Component child in context.Components)
         {
             Vector2 resolvedSize = ResolveChildSize(child, contentSize);
 
@@ -32,9 +32,9 @@ public class Row : Layout
             height = MathF.Max(height, resolvedSize.Y);
         }
 
-        if (context.Children.Count > 1)
+        if (context.Components.Count > 1)
         {
-            width += spacing * (context.Children.Count - 1);
+            width += spacing * (context.Components.Count - 1);
         }
 
         return new Vector2(width + margin.X, height + margin.Y);
@@ -46,9 +46,9 @@ public class Row : Layout
         Vector2 finalSize
     )
     {
-        List<LayoutArrangement> arrangements = new(context.Children.Count);
+        List<LayoutArrangement> arrangements = new(context.Components.Count);
 
-        if (context.Children.Count == 0)
+        if (context.Components.Count == 0)
         {
             return arrangements;
         }
@@ -59,10 +59,10 @@ public class Row : Layout
         float spacing = Spacing.Resolve(contentSize.X);
         float positionX = Margin.Left.Resolve(finalSize.X);
 
-        List<Vector2> sizes = new(context.Children.Count);
+        List<Vector2> sizes = new(context.Components.Count);
         float totalWidth = 0;
 
-        foreach (Component child in context.Children)
+        foreach (Component child in context.Components)
         {
             Vector2 size = ResolveChildSize(child, contentSize);
 
@@ -77,7 +77,7 @@ public class Row : Layout
 
         float availableSpacing = MathF.Max(
             0,
-            contentSize.X - totalWidth - spacing * (context.Children.Count - 1)
+            contentSize.X - totalWidth - spacing * (context.Components.Count - 1)
         );
 
         float leadingSpace = 0;
@@ -90,26 +90,26 @@ public class Row : Layout
         {
             leadingSpace = availableSpacing;
         }
-        else if (Distribution == Distribution.SpaceBetween && context.Children.Count > 1)
+        else if (Distribution == Distribution.SpaceBetween && context.Components.Count > 1)
         {
-            spacing += availableSpacing / (context.Children.Count - 1);
+            spacing += availableSpacing / (context.Components.Count - 1);
         }
         else if (Distribution == Distribution.SpaceAround)
         {
-            spacing += availableSpacing / context.Children.Count;
-            leadingSpace = availableSpacing / context.Children.Count / 2;
+            spacing += availableSpacing / context.Components.Count;
+            leadingSpace = availableSpacing / context.Components.Count / 2;
         }
         else if (Distribution == Distribution.SpaceEvenly)
         {
-            spacing += availableSpacing / (context.Children.Count + 1);
-            leadingSpace = availableSpacing / (context.Children.Count + 1);
+            spacing += availableSpacing / (context.Components.Count + 1);
+            leadingSpace = availableSpacing / (context.Components.Count + 1);
         }
 
         positionX += leadingSpace;
 
-        for (int index = 0; index < context.Children.Count; index++)
+        for (int index = 0; index < context.Components.Count; index++)
         {
-            Component child = context.Children[index];
+            Component child = context.Components[index];
             Vector2 size = sizes[index];
 
             float positionY = Margin.Top.Resolve(finalSize.Y);
