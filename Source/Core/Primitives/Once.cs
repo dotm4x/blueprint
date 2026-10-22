@@ -25,8 +25,7 @@ public class Once
 
         if (_executing || _failed)
         {
-            throw new InvalidOperationException(
-                "The operation has already started or failed.");
+            throw new InvalidOperationException("The operation has already started or failed.");
         }
 
         _executing = true;
