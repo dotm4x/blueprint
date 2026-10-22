@@ -526,7 +526,7 @@ public class Component : Destroyable, IIdentifiable<string>
             throw new InvalidOperationException($"{this} is already loaded.");
         }
 
-        Component? parent = Parent.Get();
+        Component? parent = Parent.Value;
 
         if (parent is not null && !parent.Loaded)
         {
