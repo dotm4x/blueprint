@@ -1,6 +1,16 @@
-# Combine
-
-**The foundation for modern user interfaces.**
+<table>
+  <tr>
+    <td width="200" align="center" valign="middle">
+      <img src="Assets/Logo.svg" width="160" alt="Combine logo">
+      <br>
+      <sub>Preliminary logo</sub>
+    </td>
+    <td valign="middle">
+      <h1>Combine</h1>
+      <p><strong>The foundation for modern user interfaces.</strong></p>
+    </td>
+  </tr>
+</table>
 
 Combine is an experimental, cross-platform UI technology built around a shared model for describing interfaces, their structure, appearance, and layout.
 
