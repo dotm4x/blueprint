@@ -1,11 +1,12 @@
 namespace Combine.Spatial;
 
 /// <summary>
-/// Represents a dimension composed of a relative scale and an absolute offset.
+/// Initializes a new instance of the <see cref="Dimension"/> struct.
 /// </summary>
 /// <param name="Scale">The proportion of the available dimension.</param>
 /// <param name="Offset">The absolute offset added to the scaled dimension.</param>
 /// <remarks>
+/// Represents a dimension composed of a relative scale and an absolute offset.
 /// The resolved value is calculated by multiplying the available dimension
 /// by <see cref="Scale"/> and adding <see cref="Offset"/>.
 /// </remarks>

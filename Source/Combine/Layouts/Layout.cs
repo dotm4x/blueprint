@@ -69,11 +69,12 @@ public enum Distribution
 }
 
 /// <summary>
-/// Represents the calculated geometry of a component.
+/// Initializes a new instance of the <see cref="LayoutResult"/> record.
 /// </summary>
 /// <param name="Position">The calculated local position.</param>
 /// <param name="Size">The calculated absolute size.</param>
 /// <remarks>
+/// Represents the calculated geometry of a component.
 /// The geometry is expressed in the coordinate space of the parent component.
 /// Position and size contain resolved values rather than relative dimensions.
 /// The result does not modify the component's transform or perform rendering.
@@ -81,18 +82,22 @@ public enum Distribution
 public sealed record LayoutResult(Vector2 Position, Vector2 Size);
 
 /// <summary>
-/// Associates a component with its calculated layout result.
+/// Initializes a new instance of the <see cref="LayoutArrangement"/> record.
 /// </summary>
 /// <param name="Component">The component being arranged.</param>
 /// <param name="Result">The calculated geometry of the component.</param>
+/// <remarks>
+/// Associates a component with its calculated layout result.
+/// </remarks>
 public sealed record LayoutArrangement(Component Component, LayoutResult Result);
 
 /// <summary>
-/// Provides the components and geometry required by a layout.
+/// Initializes a new instance of the <see cref="LayoutContext"/> record.
 /// </summary>
 /// <param name="Transform">The transform of the parent component.</param>
 /// <param name="Components">The components to arrange.</param>
 /// <remarks>
+/// Provides the components and geometry required by a layout.
 /// A layout context provides the information required by a layout
 /// implementation without exposing renderer internals.
 /// </remarks>

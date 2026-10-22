@@ -3,11 +3,12 @@ using System.Numerics;
 namespace Combine.Spatial;
 
 /// <summary>
-/// Represents a two-dimensional size.
+/// Initializes a new instance of the <see cref="Size"/> struct.
 /// </summary>
 /// <param name="Width">The horizontal dimension.</param>
 /// <param name="Height">The vertical dimension.</param>
 /// <remarks>
+/// Represents a two-dimensional size.
 /// Each dimension can combine a relative scale and an absolute offset.
 /// </remarks>
 /// <example>

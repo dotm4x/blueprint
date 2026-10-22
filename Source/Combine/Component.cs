@@ -7,8 +7,11 @@ using Combine.Spatial;
 namespace Combine;
 
 /// <summary>
-/// Represents a collection of components belonging to a parent component.
+/// Initializes a new instance of the <see cref="ComponentCollection"/> class.
 /// </summary>
+/// <remarks>
+/// Represents a collection of components belonging to a parent component.
+/// </remarks>
 /// <param name="owner">The component that owns this collection.</param>
 public class ComponentCollection(Component owner) : ReactiveSet<Component>
 {
@@ -243,7 +246,7 @@ public class Component : Destroyable, IIdentifiable<string>
     public string Path => Parent.Value is { } parent ? $"{parent.Path}/{Identifier}" : Identifier;
 
     /// <summary>
-    /// Initializes a new component.
+    /// Initializes a new instance of the <see cref="Component"/> class.
     /// </summary>
     public Component()
     {

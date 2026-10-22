@@ -3,11 +3,12 @@ using System.Numerics;
 namespace Combine.Spatial;
 
 /// <summary>
-/// Represents a two-dimensional position.
+/// Initializes a new instance of the <see cref="Position"/> struct.
 /// </summary>
 /// <param name="X">The horizontal position.</param>
 /// <param name="Y">The vertical position.</param>
 /// <remarks>
+/// Represents a two-dimensional position.
 /// Each coordinate can combine a relative scale and an absolute offset.
 /// </remarks>
 /// <example>

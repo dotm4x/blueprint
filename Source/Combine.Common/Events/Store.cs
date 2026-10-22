@@ -3,11 +3,14 @@ namespace Combine.Common.Events;
 using Combine.Common.Primitives;
 
 /// <summary>
-/// Represents a change between two values.
+/// Initializes a new instance of the <see cref="StoreChange{TValue}"/> struct.
 /// </summary>
 /// <typeparam name="TValue">The type of the values.</typeparam>
 /// <param name="Previous">The value before the change.</param>
 /// <param name="Current">The value after the change.</param>
+/// <remarks>
+/// Represents a change between two values.
+/// </remarks>
 public readonly record struct StoreChange<TValue>(TValue Previous, TValue Current);
 
 /// <summary>

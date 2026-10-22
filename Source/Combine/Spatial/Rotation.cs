@@ -1,9 +1,12 @@
 namespace Combine.Spatial;
 
 /// <summary>
-/// Represents a rotation angle in radians.
+/// Initializes a new instance of the <see cref="Rotation"/> struct.
 /// </summary>
 /// <param name="Radians">The rotation angle in radians.</param>
+/// <remarks>
+/// Represents a rotation angle in radians.
+/// </remarks>
 /// <example>
 /// <code>
 /// Rotation rotation = Rotation.FromDegrees(90);
