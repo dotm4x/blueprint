@@ -1,0 +1,132 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+env:
+  SOLUTION: Combine.slnx
+  PACKAGE_PROJECT: Source/Core/Combine.Core.csproj
+  PACKAGE_ID: Combine.Core
+  NUGET_SOURCE: https://api.nuget.org/v3/index.json
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore "$SOLUTION"
+
+      - name: Build
+        run: dotnet build "$SOLUTION" --configuration Release --no-restore
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore "$SOLUTION"
+
+      - name: Test
+        run: dotnet test "$SOLUTION" --configuration Release --no-restore
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore tools
+        run: dotnet tool restore --tool-manifest dotnet-tools.json
+
+      - name: Check formatting
+        run: dotnet csharpier check .
+
+  package:
+    name: Validate package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Determine package version
+        id: version
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="1.0.0-ci.${GITHUB_RUN_NUMBER}"
+          fi
+
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Pack
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/Build/packages"
+
+          dotnet pack "$PACKAGE_PROJECT" \
+            --configuration Release \
+            -p:PackageVersion="${{ steps.version.outputs.value }}" \
+            --output "$GITHUB_WORKSPACE/Build/packages"
+
+      - name: Validate package
+        shell: bash
+        run: |
+          PACKAGE=$(find "$GITHUB_WORKSPACE/Build/packages" \
+            -maxdepth 1 -name '*.nupkg' -print -quit)
+
+          test -n "$PACKAGE"
+
+          PACKAGE_TEST_DIR=$(mktemp -d)
+          trap 'rm -rf "$PACKAGE_TEST_DIR"' EXIT
+          cd "$PACKAGE_TEST_DIR"
+
+          dotnet new console --framework net10.0
+
+          dotnet add package "$PACKAGE_ID" \
+            --version "${{ steps.version.outputs.value }}" \
+            --source "$GITHUB_WORKSPACE/Build/packages"
+
+          dotnet restore \
+            --source "$GITHUB_WORKSPACE/Build/packages" \
+            --source "$NUGET_SOURCE"
+
+          dotnet build --configuration Release --no-restore
