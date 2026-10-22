@@ -2,7 +2,7 @@
     <Folder Name="/Source/">
         <Project Path="Source/Common/Combine.Common.csproj" />
         <Project Path="Source/Numerics/Combine.Numerics.csproj" />
-        <Project Path="Tests/Tests.csproj" />
-        <Project Path="Sandbox/Sandbox.csproj" />
     </Folder>
+    <Project Path="Tests/Tests.csproj" />
+    <Project Path="Sandbox/Sandbox.csproj" />
 </Solution>
