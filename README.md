@@ -11,9 +11,9 @@
 </p>
 
 
-Combine is an experimental, cross-platform UI technology built around a shared model for describing interfaces, their structure, appearance, and layout.
+Combine is an experimental, cross-platform technology for composing user interfaces through a shared, platform-independent model.
 
-The goal is to define interfaces independently of their target platform, allowing the same composition model to be interpreted by different rendering systems.
+It aims to separate interface composition from rendering, allowing different platform implementations to interpret the same component structure.
 
 ## Vision
 
@@ -25,6 +25,47 @@ Its design is centered around:
 - **Consistency** — structure, styling, and layout follow a shared model across platforms.
 - **Separation** — interface descriptions remain independent of rendering implementations.
 - **Extensibility** — platform-specific implementations can integrate without redefining the core model.
+
+## Example
+
+The following example illustrates the intended composition style of Combine. It is conceptual and intended to demonstrate the API's design direction, not a complete, production-ready implementation.
+
+```csharp
+using Combine.Core;
+
+CounterComponent counter = new()
+{
+    Identifier = "Counter",
+    Value = 5,
+    Tags = { "Example", "Interactive" },
+    Components =
+    {
+        new Component
+        {
+            Identifier = "Header",
+            Tags = { "Content" },
+        },
+        new Component
+        {
+            Identifier = "Actions",
+            Components =
+            {
+                new Counter { Identifier = "Increment" },
+                new Counter { Identifier = "Decrement" },
+            },
+        },
+    },
+};
+
+Console.WriteLine($"Component: {counter.Path}");
+Console.WriteLine($"Value: {counter.Value}");
+Console.WriteLine($"Increment: {counter.Components.GetByPath("Actions/Increment")!.Path}");
+
+internal class Counter(ComponentOptions? options = null) : Component(options)
+{
+    public Store<int> Value { get; init; } = new(0);
+}
+```
 
 ## Project Status
 
