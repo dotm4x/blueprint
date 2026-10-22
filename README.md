@@ -32,6 +32,7 @@ The following example illustrates the intended composition style of Combine. It 
 
 ```csharp
 using Combine.Core;
+using Combine.Core.Events
 
 CounterComponent counter = new()
 {
