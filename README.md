@@ -8,10 +8,6 @@
   <strong>The foundation for modern user interfaces.</strong>
 </p>
 
-<p align="center">
-  <em>Work In Progress</em>
-</p>
-
 
 Combine is an experimental, cross-platform UI technology built around a shared model for describing interfaces, their structure, appearance, and layout.
 
