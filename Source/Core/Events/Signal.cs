@@ -1,5 +1,3 @@
-using Combine.Core.Lifecycle;
-
 namespace Combine.Core.Events;
 
 /// <summary>
