@@ -1,5 +1,7 @@
 namespace Combine.Core.Events;
 
+using Combine.Core.Primitives;
+
 /// <summary>
 /// Represents a dispatcher for specific events, allowing listeners
 /// to be notified when the signal fires.
