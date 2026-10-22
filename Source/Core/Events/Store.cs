@@ -141,6 +141,12 @@ public class Store<TValue>(TValue value, Func<TValue, TValue, bool>? equals = nu
     }
 
     /// <summary>
+    /// Converts a value into a new store containing that value.
+    /// </summary>
+    /// <param name="value">The initial value of the store.</param>
+    public static implicit operator Store<TValue>(TValue value) => new(value);
+
+    /// <summary>
     /// Returns the string representation of the current value.
     /// </summary>
     /// <returns>
