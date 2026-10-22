@@ -1,6 +1,6 @@
+using Combine.Common;
 using Combine.Common.Collections;
 using Combine.Common.Events;
-using Combine.Common;
 using Combine.Common.Primitives;
 using Combine.Spatial;
 
@@ -24,14 +24,16 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
                 return component;
             }
 
-            if (recursive)
+            if (!recursive)
             {
-                Component? result = component.Components.GetByIdentifier(identifier, true);
+                continue;
+            }
 
-                if (result is not null)
-                {
-                    return result;
-                }
+            Component? result = component.Components.GetByIdentifier(identifier, true);
+
+            if (result is not null)
+            {
+                return result;
             }
         }
 
