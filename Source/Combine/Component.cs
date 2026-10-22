@@ -1,10 +1,10 @@
 using Combine.Common.Collections;
 using Combine.Common.Events;
-using Combine.Common.Geometry;
-using Combine.Common.Interfaces;
+using Combine.Common;
 using Combine.Common.Primitives;
+using Combine.Spatial;
 
-namespace Combine.Common;
+namespace Combine;
 
 /// <summary>
 /// Represents a collection of components belonging to a parent component.

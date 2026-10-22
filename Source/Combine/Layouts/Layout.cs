@@ -1,8 +1,7 @@
 using System.Numerics;
-using Combine.Common.Geometry;
-using Combine.Numerics.Primitives;
+using Combine.Spatial;
 
-namespace Combine.Common.Layouts;
+namespace Combine.Layouts;
 
 /// <summary>
 /// Defines how children are aligned along the cross axis of a layout.

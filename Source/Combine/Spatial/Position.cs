@@ -1,7 +1,6 @@
 using System.Numerics;
-using Combine.Numerics.Primitives;
 
-namespace Combine.Numerics.Geometry;
+namespace Combine.Spatial;
 
 /// <summary>
 /// Represents a two-dimensional position.

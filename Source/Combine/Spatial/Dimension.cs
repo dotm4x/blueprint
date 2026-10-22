@@ -1,6 +1,6 @@
 using System;
 
-namespace Combine.Numerics.Primitives;
+namespace Combine.Spatial;
 
 /// <summary>
 /// Represents a dimension composed of a relative scale and an absolute offset.

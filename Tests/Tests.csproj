@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Source\Common\Combine.Common.csproj" />
+        <ProjectReference Include="..\Source\Combine\Combine.csproj" />
+        <ProjectReference Include="..\Source\Combine.Common\Combine.Common.csproj" />
     </ItemGroup>
 </Project>

@@ -1,8 +1,7 @@
 using Combine.Common.Events;
 using Combine.Common.Primitives;
-using Combine.Numerics.Geometry;
 
-namespace Combine.Common.Geometry;
+namespace Combine.Spatial;
 
 /// <summary>
 /// Represents the geometry properties of a component.
@@ -29,17 +28,17 @@ public class Transform : Destroyable
     /// <summary>
     /// Gets the store containing the component's position.
     /// </summary>
-    public Store<Position> Position { get; init; } = new(Combine.Numerics.Geometry.Position.Zero);
+    public Store<Position> Position { get; init; } = new(global::Combine.Spatial.Position.Zero);
 
     /// <summary>
     /// Gets the store containing the component's rotation.
     /// </summary>
-    public Store<Rotation> Rotation { get; init; } = new(Combine.Numerics.Geometry.Rotation.Zero);
+    public Store<Rotation> Rotation { get; init; } = new(global::Combine.Spatial.Rotation.Zero);
 
     /// <summary>
     /// Gets the store containing the component's desired size.
     /// </summary>
-    public Store<Size> Size { get; init; } = new(Combine.Numerics.Geometry.Size.Zero);
+    public Store<Size> Size { get; init; } = new(global::Combine.Spatial.Size.Zero);
 
     /// <summary>
     /// Gets the store containing the minimum allowed size.

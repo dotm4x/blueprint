@@ -1,6 +1,6 @@
 using System;
 
-namespace Combine.Numerics.Geometry;
+namespace Combine.Spatial;
 
 /// <summary>
 /// Represents a rotation angle in radians.

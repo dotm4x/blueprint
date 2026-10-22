@@ -1,4 +1,4 @@
-namespace Combine.Numerics.Primitives;
+namespace Combine.Spatial;
 
 /// <summary>
 /// Represents the dimensions of the four sides of a rectangular area.

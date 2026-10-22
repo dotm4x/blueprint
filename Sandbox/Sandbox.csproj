@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\Source\Common\Combine.Common.csproj" />
-        <ProjectReference Include="..\Source\Numerics\Combine.Numerics.csproj" />
+        <ProjectReference Include="..\Source\Combine\Combine.csproj" />
+        <ProjectReference Include="..\Source\Combine.Common\Combine.Common.csproj" />
     </ItemGroup>
 
     <PropertyGroup>

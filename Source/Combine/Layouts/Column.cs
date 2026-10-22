@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Combine.Common.Layouts;
+namespace Combine.Layouts;
 
 /// <summary>
 /// Arranges children vertically from top to bottom.

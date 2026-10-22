@@ -18,7 +18,4 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Numerics\Combine.Numerics.csproj" />
-    </ItemGroup>
 </Project>
