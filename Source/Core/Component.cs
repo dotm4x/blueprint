@@ -204,16 +204,19 @@ public class ComponentCollection(Component owner) : ReactiveSet<Component>
 /// </summary>
 /// <remarks>
 /// A component can contain child components and participate in the lifecycle
-/// through composition, loading, unloading, and destruction.
+/// through composition, configuration, loading, unloading, and destruction.
 ///
 /// Components are identified by a unique identifier. A component whose parent
 /// is <see langword="null"/> is a root component.
 ///
-/// Composition runs at most once, before the component's first load.
+/// Composition and configuration each run at most once, before the component's
+/// first load. Configuration runs after composition.
 /// </remarks>
 public class Component : Destroyable, IIdentifiable<string>
 {
     private readonly Once _composer = new();
+    private readonly Once _configurator = new();
+
     private bool _restoringParent;
     private HashSet<Component>? _loadRollbackPreserved;
     private bool _loadRollbackInitialized;
@@ -307,15 +310,25 @@ public class Component : Destroyable, IIdentifiable<string>
     /// </summary>
     /// <returns>The child components to register, in enumeration order.</returns>
     /// <remarks>
-    /// Called at most once, before the first load. Components supplied through
-    /// <see cref="ComponentOptions"/> are registered before composed components.
-    /// The component owns its children and destroys them when destroyed.
+    /// Called at most once, before configuration and the first load.
+    /// Components supplied through <see cref="ComponentOptions"/> are registered
+    /// before composed components.
     /// If composition fails, the failure is not retried.
     /// </remarks>
     protected virtual IEnumerable<Component> Compose()
     {
         yield break;
     }
+
+    /// <summary>
+    /// Configures relationships and behavior after composition, before loading.
+    /// </summary>
+    /// <remarks>
+    /// Constructor-provided and composed components are available here.
+    /// This method is called at most once, including across subsequent load cycles.
+    /// If configuration fails, the failure is not retried.
+    /// </remarks>
+    protected virtual void Configure() { }
 
     private void ComposeComponents()
     {
@@ -335,6 +348,11 @@ public class Component : Destroyable, IIdentifiable<string>
                 throw;
             }
         }
+    }
+
+    private void ConfigureComponents()
+    {
+        Configure();
     }
 
     private void OnParentChanged(Component? parent)
@@ -488,9 +506,9 @@ public class Component : Destroyable, IIdentifiable<string>
     /// <remarks>
     /// The parent must be loaded before this component can be loaded.
     ///
-    /// Composition occurs before the component enters the loaded state.
-    /// <see cref="OnLoad"/> is invoked after this component enters the loaded
-    /// state and before its children are loaded.
+    /// Composition and configuration occur before the component enters the
+    /// loaded state. <see cref="OnLoad"/> is invoked after this component enters
+    /// the loaded state and before its children are loaded.
     ///
     /// If loading a child fails, newly loaded children are unloaded in reverse
     /// order, including persistent children, and completed initialization is
@@ -518,6 +536,7 @@ public class Component : Destroyable, IIdentifiable<string>
         }
 
         _composer.Execute(ComposeComponents);
+        _configurator.Execute(ConfigureComponents);
 
         Loaded = true;
 
