@@ -50,8 +50,8 @@ CounterComponent counter = new()
             Identifier = "Actions",
             Components =
             {
-                new Counter { Identifier = "Increment" },
-                new Counter { Identifier = "Decrement" },
+                new Component { Identifier = "Increment" },
+                new Component { Identifier = "Decrement" },
             },
         },
     },
