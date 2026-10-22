@@ -1,45 +1,10 @@
 using Combine.Common.Collections;
 using Combine.Common.Events;
+using Combine.Common.Geometry;
 using Combine.Common.Interfaces;
 using Combine.Common.Primitives;
 
 namespace Combine.Common;
-
-/// <summary>
-/// Provides optional values used to initialize a <see cref="Component"/>.
-/// </summary>
-public class ComponentOptions
-{
-    /// <summary>
-    /// Gets the initial component identifier.
-    /// </summary>
-    public string? Identifier { get; init; }
-
-    /// <summary>
-    /// Gets the initial parent component.
-    /// </summary>
-    public Component? Parent { get; init; }
-
-    /// <summary>
-    /// Gets whether the component remains loaded when its parent is unloaded.
-    /// </summary>
-    public bool Persistent { get; init; }
-
-    /// <summary>
-    /// Gets the initial child components.
-    /// </summary>
-    public IEnumerable<Component>? Children { get; init; }
-
-    /// <summary>
-    /// Gets the initial tags.
-    /// </summary>
-    public IEnumerable<string>? Tags { get; init; }
-
-    /// <summary>
-    /// Gets the initial component transform.
-    /// </summary>
-    public Transform? Transform { get; init; }
-}
 
 /// <summary>
 /// Represents a collection of components belonging to a parent component.
@@ -229,30 +194,22 @@ public class Component : Destroyable, IIdentifiable<string>
     /// <summary>
     /// Gets the parent component.
     /// </summary>
-    /// <remarks>
-    /// The value is <see langword="null"/> when this component is a root.
-    /// Changes are synchronized with the parent's <see cref="Children"/> collection.
-    /// </remarks>
-    public readonly Store<Component?> Parent;
+    public Store<Component?> Parent { get; init; }
 
     /// <summary>
     /// Gets whether the component remains loaded when its parent is unloaded.
     /// </summary>
-    public readonly bool Persistent;
+    public bool Persistent { get; init; }
 
     /// <summary>
     /// Gets the child components.
     /// </summary>
-    /// <remarks>
-    /// Adding a component transfers ownership to this component.
-    /// Removing a component detaches it without destroying it.
-    /// </remarks>
-    public readonly ComponentCollection Children;
+    public ComponentCollection Children { get; init; }
 
     /// <summary>
     /// Gets the component tags.
     /// </summary>
-    public readonly ReactiveSet<string> Tags = [];
+    public ReactiveSet<string> Tags { get; init; } = [];
 
     /// <summary>
     /// Gets the component transform store.
@@ -260,9 +217,14 @@ public class Component : Destroyable, IIdentifiable<string>
     public Store<Transform> Transform { get; init; }
 
     /// <summary>
+    /// Gets whether the component clips its rendered content.
+    /// </summary>
+    public Store<bool> Clip { get; init; }
+
+    /// <summary>
     /// Gets the unique component identifier.
     /// </summary>
-    public string Identifier { get; init; }
+    public string Identifier { get; init; } = $"component-{Random.Shared.NextInt64():x}";
 
     /// <summary>
     /// Gets whether the component is currently loaded.
@@ -281,40 +243,16 @@ public class Component : Destroyable, IIdentifiable<string>
     /// <summary>
     /// Initializes a new component.
     /// </summary>
-    /// <param name="options">The optional values used to initialize the component.</param>
-    public Component(ComponentOptions? options = null)
+    public Component()
     {
-        Identifier = options?.Identifier ?? $"component-{Random.Shared.NextInt64():x}";
-        Persistent = options?.Persistent ?? false;
-
         Parent = new Store<Component?>(null);
         Children = new ComponentCollection(this);
-
-        Transform = new Store<Transform>(options?.Transform ?? new Transform());
+        Transform = new Store<Transform>(new Transform());
+        Clip = new Store<bool>(false);
 
         Parent.Connect(OnParentChanged, true);
         Children.OnAdd.Connect(OnComponentAdded, true);
         Children.OnRemove.Connect(OnComponentRemoved, true);
-
-        if (options is null)
-        {
-            return;
-        }
-
-        foreach (Component component in options.Children ?? [])
-        {
-            Children.Add(component);
-        }
-
-        if (options.Parent is not null)
-        {
-            options.Parent.Children.Add(this);
-        }
-
-        foreach (string tag in options.Tags ?? [])
-        {
-            Tags.Add(tag);
-        }
     }
 
     /// <summary>
@@ -323,8 +261,8 @@ public class Component : Destroyable, IIdentifiable<string>
     /// <returns>The child components to register, in enumeration order.</returns>
     /// <remarks>
     /// Called at most once, before configuration and the first load.
-    /// Components supplied through <see cref="ComponentOptions"/> are registered
-    /// before composed components.
+    /// Children added through object initializers are registered before
+    /// composed components.
     /// If composition fails, the failure is not retried.
     /// </remarks>
     protected virtual IEnumerable<Component> Compose()
@@ -336,7 +274,7 @@ public class Component : Destroyable, IIdentifiable<string>
     /// Configures relationships and behavior after composition, before loading.
     /// </summary>
     /// <remarks>
-    /// Constructor-provided and composed components are available here.
+    /// Initial and composed children are available here.
     /// This method is called at most once, including across subsequent load cycles.
     /// If configuration fails, the failure is not retried.
     /// </remarks>
@@ -504,6 +442,8 @@ public class Component : Destroyable, IIdentifiable<string>
 
         Children.Destroy();
         Tags.Destroy();
+        Transform.Destroy();
+        Clip.Destroy();
         Parent.Destroy();
 
         base.OnDestroy();
@@ -640,9 +580,7 @@ public class Component : Destroyable, IIdentifiable<string>
         HashSet<Component>? preserved = _loadRollbackPreserved;
         bool rollingBack = preserved is not null;
 
-        IEnumerable<Component> components = rollingBack
-            ? Children.ToArray().Reverse()
-            : Children;
+        IEnumerable<Component> components = rollingBack ? Children.ToArray().Reverse() : Children;
 
         foreach (Component component in components)
         {
