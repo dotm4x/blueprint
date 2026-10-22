@@ -1,8 +1,8 @@
 using System.Collections;
-using Combine.Core.Events;
-using Combine.Core.Primitives;
+using Combine.Common.Events;
+using Combine.Common.Primitives;
 
-namespace Combine.Core.Collections;
+namespace Combine.Common.Collections;
 
 /// <summary>
 /// Provides read-only access to the items in a reactive set.

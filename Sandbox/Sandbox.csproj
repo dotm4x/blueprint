@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\Source\Core\Combine.Core.csproj" />
+        <ProjectReference Include="..\Source\Common\Combine.Common.csproj" />
     </ItemGroup>
 
     <PropertyGroup>

@@ -1,4 +1,4 @@
-namespace Combine.Core.Primitives;
+namespace Combine.Common.Primitives;
 
 /// <summary>
 /// Represents a type with a single possible value and no associated data.

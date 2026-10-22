@@ -1,4 +1,4 @@
-namespace Combine.Core.Primitives;
+namespace Combine.Common.Primitives;
 
 /// <summary>
 /// Ensures that an operation executes at most once.

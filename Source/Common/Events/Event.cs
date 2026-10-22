@@ -1,6 +1,6 @@
-using Combine.Core.Primitives;
+using Combine.Common.Primitives;
 
-namespace Combine.Core.Events;
+namespace Combine.Common.Events;
 
 /// <summary>
 /// Provides read-only access to an event.

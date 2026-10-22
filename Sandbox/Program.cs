@@ -1,5 +1,5 @@
-using Combine.Core;
-using Combine.Core.Events;
+using Combine.Common;
+using Combine.Common.Events;
 
 CounterComponent counter = new()
 {

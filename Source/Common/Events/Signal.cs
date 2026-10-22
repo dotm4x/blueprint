@@ -1,6 +1,6 @@
-namespace Combine.Core.Events;
+namespace Combine.Common.Events;
 
-using Combine.Core.Primitives;
+using Combine.Common.Primitives;
 
 /// <summary>
 /// Represents a dispatcher for specific events, allowing listeners

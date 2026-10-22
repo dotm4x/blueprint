@@ -1,4 +1,4 @@
-namespace Combine.Core.Interfaces;
+namespace Combine.Common.Interfaces;
 
 /// <summary>
 /// Represents an object that can be uniquely identified by a value of a specified type.

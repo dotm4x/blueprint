@@ -1,9 +1,9 @@
-using Combine.Core.Collections;
-using Combine.Core.Events;
-using Combine.Core.Interfaces;
-using Combine.Core.Primitives;
+using Combine.Common.Collections;
+using Combine.Common.Events;
+using Combine.Common.Interfaces;
+using Combine.Common.Primitives;
 
-namespace Combine.Core;
+namespace Combine.Common;
 
 /// <summary>
 /// Provides optional values used to initialize a <see cref="Component"/>.

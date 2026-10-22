@@ -31,8 +31,8 @@ Its design is centered around:
 The following example illustrates the intended composition style of Combine. It is conceptual and intended to demonstrate the API's design direction, not a complete, production-ready implementation.
 
 ```csharp
-using Combine.Core;
-using Combine.Core.Events
+using Combine.Common;
+using Combine.Common.Events;
 
 CounterComponent counter = new()
 {

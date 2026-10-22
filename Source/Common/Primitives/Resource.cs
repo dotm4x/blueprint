@@ -1,4 +1,4 @@
-namespace Combine.Core.Primitives;
+namespace Combine.Common.Primitives;
 
 /// <summary>
 /// Represents reusable data that can be shared between objects.

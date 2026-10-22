@@ -1,4 +1,4 @@
-namespace Combine.Core.Primitives;
+namespace Combine.Common.Primitives;
 
 /// <summary>
 /// Provides read-only access to the lifecycle state of a destroyable object.
