@@ -1,10 +1,12 @@
-<p align="center">
+<p align="center" style="margin-bottom: 0;">
   <img src="Assets/Logo.svg" width="120" alt="Combine">
 </p>
 
-<h1 align="center">Combine</h1>
+<h1 align="center" style="margin-top: 0; margin-bottom: 8px;">
+  Combine
+</h1>
 
-<p align="center">
+<p align="center" style="margin-top: 0;">
   <strong>The foundation for modern user interfaces.</strong>
 </p>
 
