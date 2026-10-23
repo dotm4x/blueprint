@@ -16,4 +16,16 @@
     <ItemGroup>
         <Using Include="Xunit" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Source\Blueprint.Drawing\Blueprint.Drawing.csproj" />
+      <ProjectReference Include="..\Source\Blueprint.Elements\Blueprint.Elements.csproj" />
+      <ProjectReference Include="..\Source\Blueprint.Geometry\Blueprint.Geometry.csproj" />
+      <ProjectReference Include="..\Source\Blueprint.Layouts\Blueprint.Layouts.csproj" />
+      <ProjectReference Include="..\Source\Blueprint.Shared\Blueprint.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Geometry\" />
+    </ItemGroup>
 </Project>
