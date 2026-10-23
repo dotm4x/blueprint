@@ -70,17 +70,12 @@ public enum Distribution
 }
 
 /// <summary>
-/// Initializes a new instance of the <see cref="LayoutResult"/> record.
+/// Represents the resolved geometry of an element.
 /// </summary>
-/// <param name="Position">The calculated local position.</param>
-/// <param name="Size">The calculated absolute size.</param>
-/// <remarks>
-/// Represents the calculated geometry of an element.
-/// The geometry is expressed in the coordinate space of the parent element.
-/// Position and size contain resolved values rather than relative dimensions.
-/// The result does not modify the element's transform or perform rendering.
-/// </remarks>
-public sealed record LayoutResult(Vector2 Position, Vector2 Size);
+/// <param name="Position">The resolved pivot position in the parent's coordinate space.</param>
+/// <param name="Size">The resolved absolute size.</param>
+/// <param name="OriginOffset">The resolved local offset from the pivot to the element's top-left corner.</param>
+public sealed record LayoutResult(Vector2 Position, Vector2 Size, Vector2 OriginOffset);
 
 /// <summary>
 /// Initializes a new instance of the <see cref="LayoutArrangement"/> record.
@@ -262,5 +257,19 @@ public abstract class Layout
         height = Math.Clamp(height, minimumHeight, maximumHeight);
 
         return new Vector2(height * ratio, height);
+    }
+
+    /// <summary>
+    /// Resolves an element's pivot geometry.
+    /// </summary>
+    /// <param name="element">The element being arranged.</param>
+    /// <param name="position">The top-left position allocated by the layout.</param>
+    /// <param name="size">The resolved size of the element.</param>
+    /// <returns>The resolved geometry of the element.</returns>
+    protected LayoutResult ResolveGeometry(Element element, Vector2 position, Vector2 size)
+    {
+        Vector2 originOffset = element.Origin.Value * size;
+
+        return new LayoutResult(position + originOffset, size, -originOffset);
     }
 }

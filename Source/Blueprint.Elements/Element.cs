@@ -1,3 +1,4 @@
+using System.Numerics;
 using Blueprint.Geometry.Primitives;
 using Blueprint.Shared.Collections;
 using Blueprint.Shared.Events;
@@ -215,6 +216,19 @@ public class Element : Destroyable, IIdentifiable<string>
     /// Gets the element tags.
     /// </summary>
     public ReactiveSet<string> Tags { get; init; } = [];
+
+    /// <summary>
+    /// Gets the store containing the element's origin.
+    /// </summary>
+    /// <remarks>
+    /// The origin defines the reference point of the element relative to
+    /// its own size. It determines the point around which the element
+    /// is positioned and transformed.
+    ///
+    /// Each coordinate is normalized, where (0, 0) represents the
+    /// top-left corner and (1, 1) represents the bottom-right corner.
+    /// </remarks>
+    public Store<Vector2> Origin { get; init; } = new(Vector2.Zero);
 
     /// <summary>
     /// Gets the store containing the element's position.
@@ -491,6 +505,7 @@ public class Element : Destroyable, IIdentifiable<string>
 
         Elements.Destroy();
         Tags.Destroy();
+        Origin.Destroy();
         Position.Destroy();
         Rotation.Destroy();
         Size.Destroy();

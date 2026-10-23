@@ -124,7 +124,7 @@ public class Column : Layout
                 positionX += contentSize.X - size.X;
             }
 
-            LayoutResult result = new(new Vector2(positionX, positionY), size);
+            LayoutResult result = ResolveGeometry(child, new Vector2(positionX, positionY), size);
 
             arrangements.Add(new LayoutArrangement(child, result));
             positionY += size.Y + spacing;
