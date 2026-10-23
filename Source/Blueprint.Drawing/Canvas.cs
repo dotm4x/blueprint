@@ -9,7 +9,7 @@ namespace Blueprint.Drawing;
 /// </summary>
 public abstract class DrawCanvas
 {
-    private readonly Stack<CanvasState> _states = new();
+    private readonly Stack<DrawCanvasState> _states = new();
 
     /// <summary>
     /// Gets the size of the rendering surface.
@@ -19,7 +19,7 @@ public abstract class DrawCanvas
     /// <summary>
     /// Gets the current drawing state.
     /// </summary>
-    protected CanvasState State { get; private set; } = new();
+    protected DrawCanvasState State { get; private set; } = new();
 
     /// <summary>
     /// Saves the current drawing state.
@@ -84,7 +84,7 @@ public abstract class DrawCanvas
     /// Notifies the backend that the drawing state has been restored.
     /// </summary>
     /// <param name="state">The restored state.</param>
-    protected abstract void OnStateRestored(CanvasState state);
+    protected abstract void OnStateRestored(DrawCanvasState state);
 
     /// <summary>
     /// Notifies the backend that an effect has been applied.
@@ -101,20 +101,16 @@ public abstract class DrawCanvas
 /// <summary>
 /// Represents the drawing state captured by a canvas.
 /// </summary>
-public sealed class CanvasState
+public sealed class DrawCanvasState
 {
     /// <summary>
     /// Gets the effects active in this state.
     /// </summary>
     public List<DrawEffect> Effects { get; } = [];
 
-    /// <summary>
-    /// Creates a copy of this drawing state.
-    /// </summary>
-    /// <returns>A copy of the current state.</returns>
-    internal CanvasState Clone()
+    internal DrawCanvasState Clone()
     {
-        CanvasState state = new();
+        DrawCanvasState state = new();
 
         state.Effects.AddRange(Effects);
 
