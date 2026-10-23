@@ -1,3 +1,4 @@
+using System.Numerics;
 using Blueprint.Drawing.Commands;
 using Blueprint.Drawing.Effects;
 using Blueprint.Geometry.Primitives;
@@ -47,13 +48,27 @@ public abstract class Canvas
     /// Translates the current coordinate space.
     /// </summary>
     /// <param name="position">The translation offset.</param>
-    public abstract void Translate(Position position);
+    public void Translate(Position position)
+    {
+        Vector2 offset = position.Resolve(
+            new Vector2(Size.Width.Resolve(0), Size.Height.Resolve(0))
+        );
+
+        State.Transform = Matrix3x2.CreateTranslation(offset) * State.Transform;
+
+        OnTransformChanged(State.Transform);
+    }
 
     /// <summary>
     /// Rotates the current coordinate space.
     /// </summary>
     /// <param name="rotation">The rotation to apply.</param>
-    public abstract void Rotate(Rotation rotation);
+    public void Rotate(Rotation rotation)
+    {
+        State.Transform = Matrix3x2.CreateRotation(rotation.Radians) * State.Transform;
+
+        OnTransformChanged(State.Transform);
+    }
 
     /// <summary>
     /// Draws the specified command.
@@ -81,10 +96,16 @@ public abstract class Canvas
     }
 
     /// <summary>
-    /// Notifies the backend that the drawing state has been restored.
+    /// Restores the specified drawing state in the rendering backend.
     /// </summary>
-    /// <param name="state">The restored state.</param>
+    /// <param name="state">The state to restore.</param>
     protected abstract void OnStateRestored(CanvasState state);
+
+    /// <summary>
+    /// Notifies the backend that the current transformation has changed.
+    /// </summary>
+    /// <param name="transform">The current transformation matrix.</param>
+    protected abstract void OnTransformChanged(Matrix3x2 transform);
 
     /// <summary>
     /// Notifies the backend that an effect has been applied.
@@ -93,7 +114,7 @@ public abstract class Canvas
     protected abstract void OnEffectApplied(DrawEffect effect);
 
     /// <summary>
-    /// Notifies the backend that all effects have been cleared.
+    /// Notifies the backend that all active effects have been cleared.
     /// </summary>
     protected abstract void OnEffectsCleared();
 }
@@ -104,13 +125,18 @@ public abstract class Canvas
 public class CanvasState
 {
     /// <summary>
+    /// Gets the current transformation matrix.
+    /// </summary>
+    public Matrix3x2 Transform { get; set; } = Matrix3x2.Identity;
+
+    /// <summary>
     /// Gets the effects active in this state.
     /// </summary>
     public List<DrawEffect> Effects { get; } = [];
 
     internal CanvasState Clone()
     {
-        CanvasState state = new();
+        CanvasState state = new() { Transform = Transform };
 
         state.Effects.AddRange(Effects);
 
