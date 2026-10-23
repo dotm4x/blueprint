@@ -14,5 +14,5 @@ public interface IDrawable
     /// <param name="canvas">
     /// The canvas on which the object is drawn.
     /// </param>
-    void Draw(DrawContext context, DrawCanvas canvas);
+    void Draw(DrawContext context, Canvas canvas);
 }
