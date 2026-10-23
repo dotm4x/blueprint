@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\Source\Blueprint.Drawing\Blueprint.Drawing.csproj" />
         <ProjectReference Include="..\Source\Blueprint.Elements\Blueprint.Elements.csproj" />
+        <ProjectReference Include="..\Source\Blueprint.Layouts\Blueprint.Layouts.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
