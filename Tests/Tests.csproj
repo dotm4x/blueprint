@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Source\Blueprint\Blueprint.csproj" />
-        <ProjectReference Include="..\Source\Blueprint.Common\Blueprint.Common.csproj" />
+        <ProjectReference Include="..\Source\Blueprint.Elements\Blueprint.Elements.csproj" />
+        <ProjectReference Include="..\Source\Blueprint.Shared\Blueprint.Shared.csproj" />
     </ItemGroup>
 </Project>

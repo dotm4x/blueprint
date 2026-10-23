@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Blueprint.Elements\Blueprint.Elements.csproj" />
+        <ProjectReference Include="..\Blueprint.Shared\Blueprint.Shared.csproj" />
+        <ProjectReference Include="..\Blueprint.Geometry\Blueprint.Geometry.csproj" />
+    </ItemGroup>
+</Project>

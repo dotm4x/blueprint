@@ -1,8 +1,10 @@
 <Solution>
     <Folder Name="/Source/">
-        <Project Path="Source/Blueprint/Blueprint.csproj" />
-        <Project Path="Source/Blueprint.Common/Blueprint.Common.csproj" />
-        <Project Path="Source/Blueprint.Layout/Blueprint.Layout.csproj" />
+        <Project Path="Source/Blueprint.Shared/Blueprint.Shared.csproj" />
+        <Project Path="Source/Blueprint.Elements/Blueprint.Elements.csproj" />
+        <Project Path="Source/Blueprint.Geometry/Blueprint.Geometry.csproj" />
+        <Project Path="Source/Blueprint.Drawing/Blueprint.Drawing.csproj" />
+        <Project Path="Source/Blueprint.Layouts/Blueprint.Layouts.csproj" />
     </Folder>
     <Project Path="Tests/Tests.csproj" />
     <Project Path="Sandbox/Sandbox.csproj" />

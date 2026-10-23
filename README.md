@@ -31,8 +31,8 @@ Its design is centered around:
 The following example illustrates the intended building style of Blueprint. It is conceptual and intended to demonstrate the API's design direction, not a complete, production-ready implementation.
 
 ```csharp
-using Blueprint.Common;
-using Blueprint.Common.Events;
+using Blueprint.Elements;
+using Blueprint.Shared.Events;
 
 CounterElement counter = new()
 {

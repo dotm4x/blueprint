@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Version>1.0.0</Version>
+        <PackageId>Blueprint.Shared</PackageId>
+
+        <Authors>Rayscale</Authors>
+        <Company>Rayscale</Company>
+        <Description>Shared primitives, abstractions, and foundational utilities.</Description>
+
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/dotm4x/combine</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/dotm4x/combine</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <PackageTags>blueprint;shared;primitives;abstractions</PackageTags>
+
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Blueprint.Geometry\Blueprint.Geometry.csproj" />
+    </ItemGroup>
+</Project>
