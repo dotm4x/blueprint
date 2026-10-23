@@ -1,6 +1,6 @@
-using Combine.Common;
 using Combine.Common.Collections;
 using Combine.Common.Events;
+using Combine.Common.Interfaces;
 using Combine.Common.Primitives;
 using Combine.Spatial;
 
@@ -549,18 +549,18 @@ public class Component : Destroyable, IIdentifiable<string>
                 }
             }
 
-            if (failures.Count != 0)
+            if (failures.Count == 0)
             {
-                _loadRollbackPreserved = previouslyLoaded;
-                _loadRollbackInitialized = initialized;
-
-                throw new AggregateException(
-                    "Component loading and rollback failed. Unload to retry cleanup.",
-                    [exception, .. failures]
-                );
+                throw;
             }
 
-            throw;
+            _loadRollbackPreserved = previouslyLoaded;
+            _loadRollbackInitialized = initialized;
+
+            throw new AggregateException(
+                "Component loading and rollback failed. Unload to retry cleanup.",
+                [exception, .. failures]
+            );
         }
     }
 
