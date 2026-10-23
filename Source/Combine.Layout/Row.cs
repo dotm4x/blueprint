@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Combine.Layouts;
+namespace Combine.Layout;
 
 /// <summary>
 /// Arranges children horizontally from left to right.

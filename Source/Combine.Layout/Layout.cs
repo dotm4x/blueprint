@@ -1,7 +1,7 @@
 using System.Numerics;
 using Combine.Spatial;
 
-namespace Combine.Layouts;
+namespace Combine.Layout;
 
 /// <summary>
 /// Defines how children are aligned along the cross axis of a layout.

@@ -2,6 +2,7 @@
     <Folder Name="/Source/">
         <Project Path="Source/Combine/Combine.csproj" />
         <Project Path="Source/Combine.Common/Combine.Common.csproj" />
+        <Project Path="Source/Combine.Layout/Combine.Layout.csproj" />
     </Folder>
     <Project Path="Tests/Tests.csproj" />
     <Project Path="Sandbox/Sandbox.csproj" />
