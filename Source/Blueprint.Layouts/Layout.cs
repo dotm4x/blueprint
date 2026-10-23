@@ -96,14 +96,14 @@ public sealed record LayoutArrangement(Element Element, LayoutResult Result);
 /// <summary>
 /// Initializes a new instance of the <see cref="LayoutContext"/> record.
 /// </summary>
-/// <param name="Transform">The transform of the parent element.</param>
+/// <param name="Parent">The parent element.</param>
 /// <param name="Elements">The elements to arrange.</param>
 /// <remarks>
 /// Provides the elements and geometry required by a layout.
 /// A layout context provides the information required by a layout
 /// implementation without exposing renderer internals.
 /// </remarks>
-public sealed record LayoutContext(Transform Transform, IReadOnlyList<Element> Elements);
+public sealed record LayoutContext(Element Parent, IReadOnlyList<Element> Elements);
 
 /// <summary>
 /// Defines the rules for measuring and arranging an element's children.
@@ -187,16 +187,14 @@ public abstract class Layout
         Vector2? preferredSize = null
     )
     {
-        Transform transform = child.Transform.Value;
-
-        Vector2 size = preferredSize ?? transform.Size.Value.Resolve(availableSize);
+        Vector2 size = preferredSize ?? child.Size.Value.Resolve(availableSize);
         size = Vector2.Max(size, Vector2.Zero);
 
-        Vector2? minimumSize = transform.MinimumSize.Value is { } minimum
+        Vector2? minimumSize = child.MinimumSize.Value is { } minimum
             ? Vector2.Max(minimum.Resolve(availableSize), Vector2.Zero)
             : null;
 
-        Vector2? maximumSize = transform.MaximumSize.Value is { } maximum
+        Vector2? maximumSize = child.MaximumSize.Value is { } maximum
             ? Vector2.Max(maximum.Resolve(availableSize), Vector2.Zero)
             : null;
 
@@ -214,7 +212,7 @@ public abstract class Layout
             size = Vector2.Min(size, max);
         }
 
-        if (transform.AspectRatio.Value is { } ratio && float.IsFinite(ratio) && ratio > 0)
+        if (child.AspectRatio.Value is { } ratio && float.IsFinite(ratio) && ratio > 0)
         {
             size = ResolveAspectRatio(size, ratio, minimumSize, maximumSize);
         }

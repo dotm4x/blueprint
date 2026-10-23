@@ -218,9 +218,36 @@ public class Element : Destroyable, IIdentifiable<string>
     public ReactiveSet<string> Tags { get; init; } = [];
 
     /// <summary>
-    /// Gets the element transform store.
+    /// Gets the store containing the element's position.
     /// </summary>
-    public Store<Transform> Transform { get; init; }
+    public Store<Position> Position { get; init; } =
+        new(Blueprint.Geometry.Primitives.Position.Zero);
+
+    /// <summary>
+    /// Gets the store containing the element's rotation.
+    /// </summary>
+    public Store<Rotation> Rotation { get; init; } =
+        new(Blueprint.Geometry.Primitives.Rotation.Zero);
+
+    /// <summary>
+    /// Gets the store containing the element's desired size.
+    /// </summary>
+    public Store<Size> Size { get; init; } = new(Blueprint.Geometry.Primitives.Size.Zero);
+
+    /// <summary>
+    /// Gets the store containing the minimum allowed size.
+    /// </summary>
+    public Store<Size?> MinimumSize { get; init; } = new(null);
+
+    /// <summary>
+    /// Gets the store containing the maximum allowed size.
+    /// </summary>
+    public Store<Size?> MaximumSize { get; init; } = new(null);
+
+    /// <summary>
+    /// Gets the store containing the preferred width-to-height ratio.
+    /// </summary>
+    public Store<float?> AspectRatio { get; init; } = new(null);
 
     /// <summary>
     /// Gets whether the element clips its rendered content.
@@ -253,9 +280,10 @@ public class Element : Destroyable, IIdentifiable<string>
     {
         Parent = new Store<Element?>(null);
         Elements = new ElementCollection(this);
-        Transform = new Store<Transform>(new Transform());
         Clip = new Store<bool>(false);
 
+        ValidateAspectRatio();
+        AspectRatio.Connect(_ => ValidateAspectRatio(), true);
         Parent.Connect(OnParentChanged, true);
         Elements.OnAdd.Connect(OnElementAdded, true);
         Elements.OnRemove.Connect(OnElementRemoved, true);
@@ -285,6 +313,17 @@ public class Element : Destroyable, IIdentifiable<string>
     /// If configuration fails, the failure is not retried.
     /// </remarks>
     protected virtual void Configure() { }
+
+    private void ValidateAspectRatio()
+    {
+        if (AspectRatio.Value is { } ratio && (!float.IsFinite(ratio) || ratio <= 0))
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(AspectRatio),
+                "Aspect ratio must be positive and finite."
+            );
+        }
+    }
 
     private void BuildElements()
     {
@@ -448,7 +487,12 @@ public class Element : Destroyable, IIdentifiable<string>
 
         Elements.Destroy();
         Tags.Destroy();
-        Transform.Destroy();
+        Position.Destroy();
+        Rotation.Destroy();
+        Size.Destroy();
+        MinimumSize.Destroy();
+        MaximumSize.Destroy();
+        AspectRatio.Destroy();
         Clip.Destroy();
         Parent.Destroy();
 
