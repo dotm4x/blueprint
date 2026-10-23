@@ -254,6 +254,11 @@ public class Element : Destroyable, IIdentifiable<string>
     public Store<bool> Clip { get; init; }
 
     /// <summary>
+    /// Gets the element's opacity.
+    /// </summary>
+    public Store<float> Opacity { get; init; } = new(1.0f);
+
+    /// <summary>
     /// Gets the unique element identifier.
     /// </summary>
     public string Identifier { get; init; } = $"element-{Random.Shared.NextInt64():x}";
@@ -493,6 +498,7 @@ public class Element : Destroyable, IIdentifiable<string>
         MaximumSize.Destroy();
         AspectRatio.Destroy();
         Clip.Destroy();
+        Opacity.Destroy();
         Parent.Destroy();
 
         base.OnDestroy();
