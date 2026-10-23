@@ -50,9 +50,7 @@ public abstract class Canvas
     /// <param name="position">The translation offset.</param>
     public void Translate(Position position)
     {
-        Vector2 offset = position.Resolve(
-            new Vector2(Size.Width.Resolve(0), Size.Height.Resolve(0))
-        );
+        Vector2 offset = position.Resolve(Size.Resolve(Vector2.Zero));
 
         State.Transform = Matrix3x2.CreateTranslation(offset) * State.Transform;
 
@@ -125,7 +123,7 @@ public abstract class Canvas
 public class CanvasState
 {
     /// <summary>
-    /// Gets the current transformation matrix.
+    /// Gets or sets the current transformation matrix.
     /// </summary>
     public Matrix3x2 Transform { get; set; } = Matrix3x2.Identity;
 
