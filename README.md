@@ -1,9 +1,9 @@
 <p align="center" style="margin-bottom: 0;">
-  <img src="Assets/Logo.svg" width="120" alt="Combine">
+  <img src="Assets/Logo.svg" width="120" alt="Blueprint">
 </p>
 
 <h1 align="center" style="margin-top: 0; margin-bottom: 8px;">
-  Combine
+  Blueprint
 </h1>
 
 <p align="center" style="margin-top: 0;">
@@ -11,58 +11,58 @@
 </p>
 
 
-Combine is an experimental, cross-platform technology for composing user interfaces through a shared, platform-independent model.
+Blueprint is an experimental, cross-platform technology for composing user interfaces through a shared, platform-independent model.
 
-It aims to separate interface composition from rendering, allowing different platform implementations to interpret the same component structure.
+It aims to separate interface building from rendering, allowing different platform implementations to interpret the same element structure.
 
 ## Vision
 
-Combine aims to provide a consistent foundation for building interfaces across platforms, without tying the interface model to a specific rendering technology.
+Blueprint aims to provide a consistent foundation for building interfaces across platforms, without tying the interface model to a specific rendering technology.
 
 Its design is centered around:
 
-- **Composition** — interfaces are described through hierarchical components.
+- **Build** — interfaces are described through hierarchical elements.
 - **Consistency** — structure, styling, and layout follow a shared model across platforms.
 - **Separation** — interface descriptions remain independent of rendering implementations.
 - **Extensibility** — platform-specific implementations can integrate without redefining the core model.
 
 ## Example
 
-The following example illustrates the intended composition style of Combine. It is conceptual and intended to demonstrate the API's design direction, not a complete, production-ready implementation.
+The following example illustrates the intended building style of Blueprint. It is conceptual and intended to demonstrate the API's design direction, not a complete, production-ready implementation.
 
 ```csharp
-using Combine.Common;
-using Combine.Common.Events;
+using Blueprint.Common;
+using Blueprint.Common.Events;
 
-CounterComponent counter = new()
+CounterElement counter = new()
 {
     Identifier = "Counter",
     Value = 5,
     Tags = { "Example", "Interactive" },
-    Components =
+    Elements =
     {
-        new Component
+        new Element
         {
             Identifier = "Header",
             Tags = { "Content" },
         },
-        new Component
+        new Element
         {
             Identifier = "Actions",
-            Components =
+            Elements =
             {
-                new Component { Identifier = "Increment" },
-                new Component { Identifier = "Decrement" },
+                new Element { Identifier = "Increment" },
+                new Element { Identifier = "Decrement" },
             },
         },
     },
 };
 
-Console.WriteLine($"Component: {counter.Path}");
+Console.WriteLine($"Element: {counter.Path}");
 Console.WriteLine($"Value: {counter.Value}");
-Console.WriteLine($"Increment: {counter.Components.GetByPath("Actions/Increment")!.Path}");
+Console.WriteLine($"Increment: {counter.Elements.GetByPath("Actions/Increment")!.Path}");
 
-internal class Counter(ComponentOptions? options = null) : Component(options)
+internal class CounterElement(ElementOptions? options = null) : Element(options)
 {
     public Store<int> Value { get; init; } = new(0);
 }
@@ -71,7 +71,7 @@ internal class Counter(ComponentOptions? options = null) : Component(options)
 ## Project Status
 
 > [!WARNING]
-> Combine is in its early stages of development. Its architecture, APIs, and project structure are subject to change. It is not yet intended for production use.
+> Blueprint is in its early stages of development. Its architecture, APIs, and project structure are subject to change. It is not yet intended for production use.
 
 ## License
 

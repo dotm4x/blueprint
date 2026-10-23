@@ -1,0 +1,9 @@
+<Solution>
+    <Folder Name="/Source/">
+        <Project Path="Source/Blueprint/Blueprint.csproj" />
+        <Project Path="Source/Blueprint.Common/Blueprint.Common.csproj" />
+        <Project Path="Source/Blueprint.Layout/Blueprint.Layout.csproj" />
+    </Folder>
+    <Project Path="Tests/Tests.csproj" />
+    <Project Path="Sandbox/Sandbox.csproj" />
+</Solution>

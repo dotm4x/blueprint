@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 env:
-  SOLUTION: Combine.slnx
+  SOLUTION: Blueprint.slnx
 
 jobs:
   build:
