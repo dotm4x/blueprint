@@ -20,8 +20,4 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Blueprint.Geometry\Blueprint.Geometry.csproj" />
-    </ItemGroup>
 </Project>

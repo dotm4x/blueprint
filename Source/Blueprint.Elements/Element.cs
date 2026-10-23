@@ -1,5 +1,4 @@
 using Blueprint.Geometry.Primitives;
-using Blueprint.Shared;
 using Blueprint.Shared.Collections;
 using Blueprint.Shared.Events;
 using Blueprint.Shared.Interfaces;

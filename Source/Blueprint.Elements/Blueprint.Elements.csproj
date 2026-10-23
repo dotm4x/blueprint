@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Blueprint.Geometry\Blueprint.Geometry.csproj" />
         <ProjectReference Include="..\Blueprint.Shared\Blueprint.Shared.csproj" />
     </ItemGroup>
 </Project>

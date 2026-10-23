@@ -1,6 +1,5 @@
 using System.Numerics;
 using Blueprint.Elements;
-using Blueprint.Shared;
 
 namespace Blueprint.Layouts;
 

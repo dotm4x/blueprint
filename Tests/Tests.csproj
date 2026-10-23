@@ -16,9 +16,4 @@
     <ItemGroup>
         <Using Include="Xunit" />
     </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Source\Blueprint.Elements\Blueprint.Elements.csproj" />
-        <ProjectReference Include="..\Source\Blueprint.Shared\Blueprint.Shared.csproj" />
-    </ItemGroup>
 </Project>

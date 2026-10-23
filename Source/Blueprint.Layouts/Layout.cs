@@ -1,7 +1,6 @@
 using System.Numerics;
 using Blueprint.Elements;
 using Blueprint.Geometry.Primitives;
-using Blueprint.Shared;
 
 namespace Blueprint.Layouts;
 
