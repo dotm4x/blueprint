@@ -11,10 +11,7 @@ public class RowTests
     public void Measure_CombinesChildWidthsAndMaximumHeight()
     {
         Row row = new() { Spacing = Dimension.FromOffset(5) };
-        LayoutContext context = CreateContext(
-            CreateElement(20, 10),
-            CreateElement(30, 15)
-        );
+        LayoutContext context = CreateContext(CreateElement(20, 10), CreateElement(30, 15));
 
         Assert.Equal(new Vector2(55, 15), row.Measure(context, new Vector2(100, 80)));
     }

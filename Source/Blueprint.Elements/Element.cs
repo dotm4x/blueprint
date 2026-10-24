@@ -481,7 +481,7 @@ public class Element : Destroyable, IIdentifiable<string>
             {
                 throw new InvalidOperationException(
                     $"Cannot set element \"{parent.Identifier}\" as the parent of "
-                    + $"element \"{Identifier}\" because it would create a cycle."
+                        + $"element \"{Identifier}\" because it would create a cycle."
                 );
             }
 
@@ -489,7 +489,7 @@ public class Element : Destroyable, IIdentifiable<string>
             {
                 throw new InvalidOperationException(
                     $"Cannot assign element \"{parent.Identifier}\" because its hierarchy "
-                    + "already contains a cycle."
+                        + "already contains a cycle."
                 );
             }
         }

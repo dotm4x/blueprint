@@ -23,12 +23,13 @@ public class OnceTests
         InvalidOperationException exception = new("failure");
         int executions = 0;
 
-        InvalidOperationException actual = Assert.Throws<InvalidOperationException>(
-            () => once.Execute(() =>
+        InvalidOperationException actual = Assert.Throws<InvalidOperationException>(() =>
+            once.Execute(() =>
             {
                 executions++;
                 throw exception;
-            }));
+            })
+        );
 
         Assert.Same(exception, actual);
         Assert.Equal(1, executions);
@@ -41,8 +42,7 @@ public class OnceTests
     {
         Once once = new();
 
-        Assert.Throws<InvalidOperationException>(() => once.Execute(
-            () => once.Execute(() => { })));
+        Assert.Throws<InvalidOperationException>(() => once.Execute(() => once.Execute(() => { })));
 
         Assert.Throws<InvalidOperationException>(() => once.Execute(() => { }));
     }

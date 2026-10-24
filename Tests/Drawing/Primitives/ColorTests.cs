@@ -107,7 +107,11 @@ public class ColorTests
     [Fact]
     public void Lerp_InterpolatesEveryComponent()
     {
-        Color result = Color.Lerp(new Color(0, 0.2f, 0.4f, 0.6f), new Color(1, 0.8f, 0.6f, 0.2f), 0.25f);
+        Color result = Color.Lerp(
+            new Color(0, 0.2f, 0.4f, 0.6f),
+            new Color(1, 0.8f, 0.6f, 0.2f),
+            0.25f
+        );
 
         AssertColor(new Color(0.25f, 0.35f, 0.45f, 0.5f), result);
     }

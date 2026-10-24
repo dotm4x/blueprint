@@ -73,10 +73,7 @@ public class CanvasTests
 
         canvas.Rotate(Rotation.FromDegrees(90));
 
-        Assert.Equal(
-            Matrix3x2.CreateRotation(MathF.PI / 2),
-            canvas.CurrentState.Transform
-        );
+        Assert.Equal(Matrix3x2.CreateRotation(MathF.PI / 2), canvas.CurrentState.Transform);
         Assert.Equal(canvas.CurrentState.Transform, canvas.Transforms[^1]);
     }
 
@@ -135,7 +132,8 @@ public class CanvasTests
 
         protected override void OnStateRestored(CanvasState state) => RestoredState = state;
 
-        protected override void OnTransformChanged(Matrix3x2 transform) => Transforms.Add(transform);
+        protected override void OnTransformChanged(Matrix3x2 transform) =>
+            Transforms.Add(transform);
 
         protected override void OnEffectApplied(DrawEffect effect) => AppliedEffects.Add(effect);
 

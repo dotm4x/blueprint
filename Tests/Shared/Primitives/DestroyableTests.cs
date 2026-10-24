@@ -23,7 +23,8 @@ public class DestroyableTests
         destroyable.Destroy();
 
         DestroyedObjectException exception = Assert.Throws<DestroyedObjectException>(
-            destroyable.Destroy);
+            destroyable.Destroy
+        );
 
         Assert.Contains(nameof(TestDestroyable), exception.Message);
         Assert.Equal(1, destroyable.CleanupCount);
@@ -47,7 +48,8 @@ public class DestroyableTests
         destroyable.Destroy();
 
         DestroyedObjectException exception = Assert.Throws<DestroyedObjectException>(
-            destroyable.CheckDestroyed);
+            destroyable.CheckDestroyed
+        );
 
         Assert.Contains(nameof(TestDestroyable), exception.Message);
     }

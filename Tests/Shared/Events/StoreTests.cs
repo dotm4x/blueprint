@@ -49,8 +49,10 @@ public class StoreTests
     [Fact]
     public void Value_UsesProvidedEqualityFunction()
     {
-        Store<string> store = new("first", (left, right) =>
-            string.Equals(left, right, StringComparison.OrdinalIgnoreCase));
+        Store<string> store = new(
+            "first",
+            (left, right) => string.Equals(left, right, StringComparison.OrdinalIgnoreCase)
+        );
         int notifications = 0;
         store.Connect(_ => notifications++);
 

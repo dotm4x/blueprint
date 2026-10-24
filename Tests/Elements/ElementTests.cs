@@ -259,10 +259,7 @@ public class ElementTests
         List<string> events = [];
         ProbeElement initialChild = new("initial", events);
         ProbeElement builtChild = new("built", events);
-        ProbeElement root = new("root", events, initialChild)
-        {
-            BuiltChildren = [builtChild],
-        };
+        ProbeElement root = new("root", events, initialChild) { BuiltChildren = [builtChild] };
         root.ConfigureAction = element =>
         {
             events.Add("configure");

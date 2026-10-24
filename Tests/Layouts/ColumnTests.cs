@@ -11,10 +11,7 @@ public class ColumnTests
     public void Measure_CombinesChildHeightsAndMaximumWidth()
     {
         Column column = new() { Spacing = Dimension.FromOffset(5) };
-        LayoutContext context = CreateContext(
-            CreateElement(20, 10),
-            CreateElement(30, 15)
-        );
+        LayoutContext context = CreateContext(CreateElement(20, 10), CreateElement(30, 15));
 
         Assert.Equal(new Vector2(30, 30), column.Measure(context, new Vector2(100, 80)));
     }
@@ -69,7 +66,10 @@ public class ColumnTests
         Column column = new() { Spacing = Dimension.FromOffset(5), Distribution = distribution };
         LayoutContext context = CreateContext(CreateElement(10, 10), CreateElement(10, 10));
 
-        IReadOnlyList<LayoutArrangement> arrangements = column.Arrange(context, new Vector2(80, 100));
+        IReadOnlyList<LayoutArrangement> arrangements = column.Arrange(
+            context,
+            new Vector2(80, 100)
+        );
 
         Assert.Equal(firstY, arrangements[0].Result.Position.Y, 3);
         Assert.Equal(secondY, arrangements[1].Result.Position.Y, 3);
@@ -89,7 +89,9 @@ public class ColumnTests
         Column column = new() { Alignment = alignment };
         LayoutContext context = CreateContext(CreateElement(20, 10));
 
-        LayoutArrangement arrangement = Assert.Single(column.Arrange(context, new Vector2(100, 80)));
+        LayoutArrangement arrangement = Assert.Single(
+            column.Arrange(context, new Vector2(100, 80))
+        );
 
         Assert.Equal(expectedX, arrangement.Result.Position.X);
         Assert.Equal(expectedWidth, arrangement.Result.Size.X);

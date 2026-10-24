@@ -8,20 +8,12 @@ public class ReactiveDictionaryTests
     [Fact]
     public void Constructor_AddsInitialEntriesAndRejectsDuplicateKeys()
     {
-        ReactiveDictionary<string, int> dictionary = new()
-        {
-            { "one", 1 },
-            { "two", 2 },
-        };
+        ReactiveDictionary<string, int> dictionary = new() { { "one", 1 }, { "two", 2 } };
 
         Assert.Equal(2, dictionary.Count);
         Assert.Equal(1, dictionary["one"]);
         Assert.Throws<ArgumentException>(() =>
-            new ReactiveDictionary<string, int>
-            {
-                { "one", 1 },
-                { "one", 2 },
-            }
+            new ReactiveDictionary<string, int> { { "one", 1 }, { "one", 2 } }
         );
     }
 
@@ -77,11 +69,7 @@ public class ReactiveDictionaryTests
     [Fact]
     public void Clear_FiresOnClearBeforeRemovingEntries()
     {
-        ReactiveDictionary<string, int> dictionary = new()
-        {
-            { "one", 1 },
-            { "two", 2 },
-        };
+        ReactiveDictionary<string, int> dictionary = new() { { "one", 1 }, { "two", 2 } };
         List<string> events = [];
         dictionary.OnClear.Connect(_ => events.Add("clear"));
         dictionary.OnRemove.Connect(item => events.Add($"remove:{item.Key}"));
@@ -98,11 +86,7 @@ public class ReactiveDictionaryTests
     [Fact]
     public void ReadOperations_ExposeEntriesAndValues()
     {
-        ReactiveDictionary<string, int> dictionary = new()
-        {
-            { "one", 1 },
-            { "two", 2 },
-        };
+        ReactiveDictionary<string, int> dictionary = new() { { "one", 1 }, { "two", 2 } };
         List<KeyValuePair<string, int>> visited = [];
         List<KeyValuePair<string, int>> iterated = [];
         dictionary.ForEach((key, entryValue) => visited.Add(new(key, entryValue)));

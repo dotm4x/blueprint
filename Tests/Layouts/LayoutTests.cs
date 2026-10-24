@@ -101,17 +101,26 @@ public class LayoutTests
 
     private sealed class TestLayout : Layout
     {
-        public Vector2 ResolveSize(Element element, Vector2 availableSize, Vector2? preferredSize = null) =>
-            ResolveChildSize(element, availableSize, preferredSize);
+        public Vector2 ResolveSize(
+            Element element,
+            Vector2 availableSize,
+            Vector2? preferredSize = null
+        ) => ResolveChildSize(element, availableSize, preferredSize);
 
         public Vector2 ResolveMargins(Vector2 availableSize) => ResolveMargin(availableSize);
 
-        public LayoutResult ResolveElementGeometry(Element element, Vector2 position, Vector2 size) =>
-            ResolveGeometry(element, position, size);
+        public LayoutResult ResolveElementGeometry(
+            Element element,
+            Vector2 position,
+            Vector2 size
+        ) => ResolveGeometry(element, position, size);
 
-        public override Vector2 Measure(LayoutContext context, Vector2 availableSize) => availableSize;
+        public override Vector2 Measure(LayoutContext context, Vector2 availableSize) =>
+            availableSize;
 
-        public override IReadOnlyList<LayoutArrangement> Arrange(LayoutContext context, Vector2 finalSize) =>
-            [];
+        public override IReadOnlyList<LayoutArrangement> Arrange(
+            LayoutContext context,
+            Vector2 finalSize
+        ) => [];
     }
 }
