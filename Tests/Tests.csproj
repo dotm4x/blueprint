@@ -4,6 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Geometry\" />
+        <Folder Include="Geometry\Primitives\" />
     </ItemGroup>
 </Project>
