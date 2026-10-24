@@ -301,7 +301,7 @@ public class Element : Destroyable, IIdentifiable<string>
         Clip = new Store<bool>(false);
 
         ValidateAspectRatio();
-        AspectRatio.Connect(_ => ValidateAspectRatio(), true);
+        AspectRatio.Connect(OnAspectRatioChanged, true);
         Parent.Connect(OnParentChanged, true);
         Elements.OnAdd.Connect(OnElementAdded, true);
         Elements.OnRemove.Connect(OnElementRemoved, true);
@@ -340,6 +340,19 @@ public class Element : Destroyable, IIdentifiable<string>
                 nameof(AspectRatio),
                 "Aspect ratio must be positive and finite."
             );
+        }
+    }
+
+    private void OnAspectRatioChanged(float? _)
+    {
+        try
+        {
+            ValidateAspectRatio();
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            AspectRatio.Value = AspectRatio.Previous;
+            throw;
         }
     }
 
@@ -455,7 +468,9 @@ public class Element : Destroyable, IIdentifiable<string>
 
         if (ReferenceEquals(parent, this))
         {
-            throw new InvalidOperationException($"{this} cannot be its own parent.");
+            throw new InvalidOperationException(
+                $"Element \"{Identifier}\" cannot be its own parent."
+            );
         }
 
         HashSet<Element> visited = [];
@@ -465,14 +480,16 @@ public class Element : Destroyable, IIdentifiable<string>
             if (ReferenceEquals(ancestor, this))
             {
                 throw new InvalidOperationException(
-                    $"Cannot set {parent} as the parent of {this} because it would create a cycle."
+                    $"Cannot set element \"{parent.Identifier}\" as the parent of "
+                    + $"element \"{Identifier}\" because it would create a cycle."
                 );
             }
 
             if (!visited.Add(ancestor))
             {
                 throw new InvalidOperationException(
-                    $"Cannot assign {parent} because its hierarchy already contains a cycle."
+                    $"Cannot assign element \"{parent.Identifier}\" because its hierarchy "
+                    + "already contains a cycle."
                 );
             }
         }
